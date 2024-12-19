@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Sequence App</title>
+</head>
+<body>
+  <h1>Generate Forbidden Sequence</h1>
+  <form id="sequence-form">
+    <label for="number-input">Enter a number (1-1000):</label><br>
+    <input type="number" id="number-input" min="1" max="1000" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <div id="output"></div>
+
+  <div id="captcha-container">
+    <p>Please solve the captcha to continue:</p>
+    <iframe src="https://captcha.example.com" width="300" height="200"></iframe>
+    <button id="captcha-solved">I solved the captcha</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

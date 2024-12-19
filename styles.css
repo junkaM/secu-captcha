@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+  }
+  #output {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    text-align: left;
+  }
+  #captcha-container {
+    display: none;
+    margin-top: 20px;
+  }
