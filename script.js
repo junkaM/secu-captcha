@@ -1,51 +1,33 @@
-const form = document.getElementById("sequence-form");
-const output = document.getElementById("output");
-const captchaContainer = document.getElementById("captcha-container");
-const captchaSolvedButton = document.getElementById("captcha-solved");
+const form = document.getElementById('sequence-form');
+const output = document.getElementById('output');
 
-let stopSequence = false;
-
-form.addEventListener("submit", async (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
-  output.innerHTML = ""; 
-  captchaContainer.classList.add("hidden"); 
+  output.textContent = ''; 
 
-  const n = parseInt(document.getElementById("number-input").value, 10);
-  stopSequence = false;
+  const n = parseInt(document.getElementById('number-input').value, 10);
 
   for (let i = 1; i <= n; i++) {
-    if (stopSequence) break;
-
     try {
-      const response = await fetch("https://api.prod.jcloudify.com/whoami");
-      const line = document.createElement("div");
+      // Perform the API request
+      const response = await fetch('https://api.prod.jcloudify.com/whoami');
 
       if (response.status === 403) {
-        line.textContent = `${i}. Forbidden`;
+        output.textContent += `${i}. Forbidden\n`;
+      } else if (response.status === 405) {
+        output.textContent += `${i}. Captcha required\n`;
+        console.log("Captcha triggered. AWS WAF will handle it.");
+        break;
       } else if (response.status === 200) {
-        line.textContent = `${i}. Success`;
+        output.textContent += `${i}. Success\n`;
       } else {
-        line.textContent = `${i}. Unexpected response`;
+        output.textContent += `${i}. Unexpected response: ${response.status}\n`;
       }
-
-      output.appendChild(line);
     } catch (error) {
-      if (error.message.includes("captcha")) {
-        stopSequence = true;
-        captchaContainer.classList.remove("hidden");
-        return;
-      }
-      const errorLine = document.createElement("div");
-      errorLine.textContent = `${i}. Error: ${error.message}`;
-      output.appendChild(errorLine);
+      console.error(`Error on request ${i}:`, error);
+      output.textContent += `${i}. Error\n`;
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 1000));
   }
-});
-
-captchaSolvedButton.addEventListener("click", () => {
-  stopSequence = false;
-  captchaContainer.classList.add("hidden");
-  output.textContent += "Captcha solved. Resuming...\n";
 });
