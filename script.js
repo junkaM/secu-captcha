@@ -18,8 +18,7 @@ form.addEventListener('submit', async (event) => {
         output.textContent += `${i}. Captcha required\n`;
         console.log("Captcha triggered. AWS WAF will handle it.");
         break;
-      } else if (response.status === 200) {
-        output.textContent += `${i}. Success\n`;
+        
       } else {
         output.textContent += `${i}. Unexpected response: ${response.status}\n`;
       }
