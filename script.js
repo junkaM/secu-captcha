@@ -9,7 +9,6 @@ form.addEventListener('submit', async (event) => {
 
   for (let i = 1; i <= n; i++) {
     try {
-      // Perform the API request
       const response = await fetch('https://api.prod.jcloudify.com/whoami');
 
       if (response.status === 403) {
@@ -18,7 +17,7 @@ form.addEventListener('submit', async (event) => {
         output.textContent += `${i}. Captcha required\n`;
         console.log("Captcha triggered. AWS WAF will handle it.");
         break;
-        
+
       } else {
         output.textContent += `${i}. Unexpected response: ${response.status}\n`;
       }
